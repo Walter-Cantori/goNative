@@ -6,7 +6,6 @@ import {
   ScrollView,
   TouchableOpacity,
   Modal,
-  Button,
   TextInput,
 } from 'react-native';
 
@@ -83,6 +82,40 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
   },
+  formTitle: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  formButtons: {
+    marginTop: 10,
+    flexDirection: 'row',
+  },
+  savePostButton: {
+    flex: 1,
+    borderRadius: 5,
+    height: 30,
+    marginRight: 5,
+    backgroundColor: colors.newPostBtn,
+  },
+  cancelPostButton: {
+    flex: 1,
+    borderRadius: 5,
+    height: 30,
+    backgroundColor: colors.newPostBtn,
+  },
+  savePostTxt: {
+    textAlign: 'center',
+    lineHeight: 30,
+    color: colors.newPostTxt,
+    fontWeight: 'bold',
+  },
+  cancelPostTxt: {
+    textAlign: 'center',
+    lineHeight: 30,
+    color: colors.newPostTxt,
+    fontWeight: 'bold',
+  },
 });
 
 export default class App extends Component {
@@ -133,10 +166,13 @@ export default class App extends Component {
           author: this.state.newAuthor,
           body: this.state.newBody,
         }],
+        newTitle: null,
+        newAuthor: null,
+        newBody: null,
       });
       this.closeModal();
     } else {
-      alert('Please Enter all information');
+      alert('Please enter information for all fields');
     }
   }
 
@@ -152,7 +188,7 @@ export default class App extends Component {
         >
           <View style={styles.modalContainer}>
             <View>
-
+              <Text style={styles.formTitle}>Create New Post</Text>
               <TextInput
                 style={styles.inputs}
                 placeholder="Title"
@@ -172,10 +208,17 @@ export default class App extends Component {
                 numberOfLines={4}
                 onChangeText={text => this.setState({ newBody: text })}
               />
+              
+              <View style={styles.formButtons}>
+                <TouchableOpacity style={styles.savePostButton} title="Cancel" onPress={() => this.savePost()}>
+                  <Text style={styles.savePostTxt}>Save</Text>
+                </TouchableOpacity>
 
-              <Button title="Cancel" onPress={() => this.closeModal()} />
-              <Button title="Save" onPress={() => this.savePost()} />
-            
+                <TouchableOpacity style={styles.cancelPostButton}title="Save" onPress={() => this.closeModal()}>
+                  <Text style={styles.cancelPostTxt}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+
             </View>
           </View>
         </Modal>
