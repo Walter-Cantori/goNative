@@ -33,25 +33,6 @@ const styles = StyleSheet.create({
     height: 50,
     width: '100%',
   },
-  newPost: {
-    borderWidth: 1,
-    borderRadius: 50,
-    borderColor: colors.borderColor,
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    height: 80,
-    width: 80,
-    paddingTop: 20,
-    backgroundColor: colors.newPost,
-  },
-  newPostButton: {
-    color: colors.newPostBtn,
-    textAlign: 'center',
-    lineHeight: 40,
-    fontWeight: 'bold',
-    fontSize: 15,
-  },
 });
 
 export default class App extends Component {
@@ -112,9 +93,6 @@ export default class App extends Component {
         <ScrollView contentContainerStyle={styles.contentContainer}>
           { posts.map(post => <Posts key={post.id} post={post} />)}
         </ScrollView>
-        <TouchableOpacity onPress={() => alert('clicked')} style={styles.newPost}>
-          <Text style={styles.newPostButton}>NEW</Text>
-        </TouchableOpacity>
       </View>
     );
   }
