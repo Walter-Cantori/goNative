@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   scrollContainer: {
-    flex: 15,
+    flex: 10,
     backgroundColor: colors.mainBg,
     padding: 20,
     justifyContent: 'center',
