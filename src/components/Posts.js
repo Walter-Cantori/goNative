@@ -12,14 +12,11 @@ import colors from '../assets/colors';
 const styles = StyleSheet.create({
   post: {
     backgroundColor: colors.postBg,
-    marginTop: 20,
-    marginLeft: 'auto',
-    marginRight: 'auto',
     padding: 20,
-    width: '90%',
     borderWidth: 1,
     borderColor: colors.borderColor,
     borderRadius: 5,
+    marginBottom: 20,
   },
   title: {
     color: colors.postTitle,
