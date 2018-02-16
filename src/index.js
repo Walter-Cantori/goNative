@@ -11,30 +11,28 @@ import {
 
 import Posts from 'components/Posts';
 import colors from './assets/colors';
+import CustomButtom from './components/CustomButtom';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
   },
-  contentContainer: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: colors.mainBg,
-    paddingBottom: 20,
-    minHeight: '90%',
+  headerView: {
+    flex: 1,
+    backgroundColor: colors.postBg,
+    marginTop: 35,
+    justifyContent: 'center',
   },
   header: {
     color: colors.headerColor,
     textAlign: 'center',
-    lineHeight: 50,
     fontWeight: 'bold',
   },
-  headerView: {
-    backgroundColor: colors.postBg,
-    marginTop: 35,
-    height: 50,
-    width: '100%',
+  scrollContainer: {
+    flex: 10,
+    backgroundColor: colors.mainBg,
+    padding: 20,
   },
   newPost: {
     borderWidth: 1,
@@ -57,14 +55,14 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.mainBg,
+    padding: 20,
   },
   inputs: {
     height: 40,
-    minWidth: '90%',
+    width: '100%',
     borderColor: colors.borderColor,
     backgroundColor: colors.postBg,
     borderWidth: 1,
@@ -74,7 +72,7 @@ const styles = StyleSheet.create({
   },
   textArea: {
     height: 100,
-    minWidth: '90%',
+    minWidth: '100%',
     borderColor: colors.borderColor,
     backgroundColor: colors.postBg,
     borderWidth: 1,
@@ -146,15 +144,15 @@ export default class App extends Component {
     };
   }
 
-  openModal() {
+  openModal = () => {
     this.setState({ createPost: true });
   }
 
-  closeModal() {
+  closeModal = () => {
     this.setState({ createPost: false });
   }
 
-  savePost() {
+  savePost = () => {
     const lastPost = this.state.posts.length;
     const id = this.state.posts[lastPost - 1].id + 1;
 
@@ -184,54 +182,65 @@ export default class App extends Component {
         <Modal
           visible={this.state.createPost}
           animationType="slide"
-          onRequestClose={() => this.closeModal()}
+          onRequestClose={() => this.closeModal}
         >
           <View style={styles.modalContainer}>
-            <View>
-              <Text style={styles.formTitle}>Create New Post</Text>
-              <TextInput
-                style={styles.inputs}
-                placeholder="Title"
-                onChangeText={text => this.setState({ newTitle: text })}
-              />
-              
-              <TextInput
-                style={styles.inputs}
-                placeholder="Author"
-                onChangeText={text => this.setState({ newAuthor: text })} 
+            <Text style={styles.formTitle}>Create New Post</Text>
+            <TextInput
+              style={styles.inputs}
+              placeholder="Title"
+              onChangeText={text => this.setState({ newTitle: text })}
+            />
+            
+            <TextInput
+              style={styles.inputs}
+              placeholder="Author"
+              onChangeText={text => this.setState({ newAuthor: text })} 
+            />
+
+            <TextInput
+              style={styles.textArea}
+              placeholder="Content"
+              multiline={true}
+              numberOfLines={4}
+              onChangeText={text => this.setState({ newBody: text })}
+            />
+            
+            <View style={styles.formButtons}>
+
+              <CustomButtom
+                onPress={this.savePost}
+                outterStyle={styles.savePostButton}
+                innerStyle={styles.savePostTxt}
+                text="Save"
               />
 
-              <TextInput
-                style={styles.textArea}
-                placeholder="Content"
-                multiline={true}
-                numberOfLines={4}
-                onChangeText={text => this.setState({ newBody: text })}
+              <CustomButtom
+                onPress={this.closeModal}
+                outterStyle={styles.cancelPostButton}
+                innerStyle={styles.cancelPostTxt}
+                text="Cancel"
               />
-              
-              <View style={styles.formButtons}>
-                <TouchableOpacity style={styles.savePostButton} title="Cancel" onPress={() => this.savePost()}>
-                  <Text style={styles.savePostTxt}>Save</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.cancelPostButton}title="Save" onPress={() => this.closeModal()}>
-                  <Text style={styles.cancelPostTxt}>Cancel</Text>
-                </TouchableOpacity>
-              </View>
-
             </View>
+
           </View>
+
         </Modal>
         
         <View style={styles.headerView}><Text style={styles.header}>GoNative App</Text></View>
         
-        <ScrollView contentContainerStyle={styles.contentContainer}>
-          { posts.map(post => <Posts key={post.id} post={post} />)}
-        </ScrollView>
-        
-        <TouchableOpacity onPress={() => this.openModal()} style={styles.newPost}>
-          <Text style={styles.newPostButton}>NEW</Text>
-        </TouchableOpacity>
+        <View style={styles.scrollContainer}>
+          <ScrollView>
+            { posts.map(post => <Posts key={post.id} post={post} />)}
+          </ScrollView>
+        </View>
+
+        <CustomButtom
+          onPress={this.openModal}
+          outterStyle={styles.newPost}
+          innerStyle={styles.newPostButton}
+          text="NEW"
+        />
       
       </View>
     );
