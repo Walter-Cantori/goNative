@@ -4,14 +4,13 @@ import {
   Text,
   View,
   ScrollView,
-  TouchableOpacity,
-  Modal,
-  TextInput,
+  Alert,
 } from 'react-native';
 
 import Posts from 'components/Posts';
 import colors from './assets/colors';
 import CustomButtom from './components/CustomButtom';
+import NewPost from './components/NewPost';
 
 const styles = StyleSheet.create({
   container: {
@@ -53,67 +52,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.mainBg,
-    padding: 20,
-  },
-  inputs: {
-    height: 40,
-    width: '100%',
-    borderColor: colors.borderColor,
-    backgroundColor: colors.postBg,
-    borderWidth: 1,
-    marginTop: 10,
-    borderRadius: 5,
-    padding: 10,
-  },
-  textArea: {
-    height: 100,
-    minWidth: '100%',
-    borderColor: colors.borderColor,
-    backgroundColor: colors.postBg,
-    borderWidth: 1,
-    marginTop: 10,
-    borderRadius: 5,
-    padding: 10,
-  },
-  formTitle: {
-    textAlign: 'center',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  formButtons: {
-    marginTop: 10,
-    flexDirection: 'row',
-  },
-  savePostButton: {
-    flex: 1,
-    borderRadius: 5,
-    height: 30,
-    marginRight: 5,
-    backgroundColor: colors.newPostBtn,
-  },
-  cancelPostButton: {
-    flex: 1,
-    borderRadius: 5,
-    height: 30,
-    backgroundColor: colors.newPostBtn,
-  },
-  savePostTxt: {
-    textAlign: 'center',
-    lineHeight: 30,
-    color: colors.newPostTxt,
-    fontWeight: 'bold',
-  },
-  cancelPostTxt: {
-    textAlign: 'center',
-    lineHeight: 30,
-    color: colors.newPostTxt,
-    fontWeight: 'bold',
-  },
 });
 
 export default class App extends Component {
@@ -144,6 +82,12 @@ export default class App extends Component {
     };
   }
 
+  handleInput = (text, field) => {
+    this.setState({
+      [field]: text,
+    });
+  }
+
   openModal = () => {
     this.setState({ createPost: true });
   }
@@ -170,7 +114,7 @@ export default class App extends Component {
       });
       this.closeModal();
     } else {
-      alert('Please enter information for all fields');
+      Alert.alert('Please enter information for all fields');
     }
   }
 
@@ -179,53 +123,12 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
 
-        <Modal
+        <NewPost
           visible={this.state.createPost}
-          animationType="slide"
-          onRequestClose={() => this.closeModal}
-        >
-          <View style={styles.modalContainer}>
-            <Text style={styles.formTitle}>Create New Post</Text>
-            <TextInput
-              style={styles.inputs}
-              placeholder="Title"
-              onChangeText={text => this.setState({ newTitle: text })}
-            />
-            
-            <TextInput
-              style={styles.inputs}
-              placeholder="Author"
-              onChangeText={text => this.setState({ newAuthor: text })} 
-            />
-
-            <TextInput
-              style={styles.textArea}
-              placeholder="Content"
-              multiline={true}
-              numberOfLines={4}
-              onChangeText={text => this.setState({ newBody: text })}
-            />
-            
-            <View style={styles.formButtons}>
-
-              <CustomButtom
-                onPress={this.savePost}
-                outterStyle={styles.savePostButton}
-                innerStyle={styles.savePostTxt}
-                text="Save"
-              />
-
-              <CustomButtom
-                onPress={this.closeModal}
-                outterStyle={styles.cancelPostButton}
-                innerStyle={styles.cancelPostTxt}
-                text="Cancel"
-              />
-            </View>
-
-          </View>
-
-        </Modal>
+          closeModal={this.closeModal}
+          handleInput={this.handleInput}
+          savePost={this.savePost}
+        />
         
         <View style={styles.headerView}><Text style={styles.header}>GoNative App</Text></View>
         
